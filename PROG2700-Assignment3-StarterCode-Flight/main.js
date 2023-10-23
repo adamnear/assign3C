@@ -13,7 +13,22 @@
         fetch('https://opensky-network.org/api/states/all')
             .then(response => response.json())
             .then(data => {
+                //Use filter method to only use data from Canadian flights
+                const canadianFlights = data.states.filter(flight => flight[2] = 'Canada');
 
+                //Create a GeoJSON Object
+                const geoJsonFeatures = canadianFlights.map(flight => ({
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point', //Specifying the flight is a point on the map
+                        coordinates: [flight[5], flight[6]] // Latitude and longitude
+                    },
+                    properties: {
+                        callsign: flight[1],
+                        origin: flight[2],
+                        altitude: flight[7]
+                    }
+                }));
             })
     }
 })()
