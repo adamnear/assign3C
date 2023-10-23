@@ -33,10 +33,18 @@
                     }))
                 };
 
-                //Add markers to the map
+                //Add markers to the map using the GeoJSON data
                 L.geoJSON(geoJsonFeatureCollection, {
-                    type: 'FeatureCollection',
-                    features: geoJsonFeatures
+                    pointToLayer: (feature, latlng) => {
+                        return L.marker(latlng);
+                    },
+                    onEachFeature: (feature, layer) => {
+                        //Pop up will show the flight information.
+                        layer.bindPopup(`<strong>Callsign:</strong> ${feature.properties.callsign}<br>
+                        <strong>Origin:</strong> ${feature.properties.origin}<br>
+                        <strong>Altitude:</strong> ${feature.properties.altitude} meters
+                    `)
+                    }
                 }).addTo(map);
             })
             .catch(error => {
