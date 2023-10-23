@@ -29,6 +29,12 @@
                         altitude: flight[7]
                     }
                 }));
+
+                //Add markers to the map
+                L.geoJSON({
+                    type: 'FeatureCollection',
+                    features: geoJsonFeatures
+                }).addTo(map);
             })
     }
 })()
