@@ -14,7 +14,7 @@
             .then(response => response.json())
             .then(data => {
                 //Use filter method to only use data from Canadian flights
-                const canadianFlights = data.states.filter(flight => flight[2] = 'Canada');
+                const canadianFlights = data.states.filter(flight => flight[2] === 'Canada');
 
                 // Create a GeoJSON FeatureCollection
                 const geoJsonFeatureCollection = {
@@ -75,6 +75,6 @@
     fetchFlightData();
 
     // Set up an interval to auto-refresh the flight data every 5 minutes (300,000 milliseconds)
-    setInterval(fetchFlightData, 200000);
+    setInterval(fetchFlightData, 300000);
 
 })()
