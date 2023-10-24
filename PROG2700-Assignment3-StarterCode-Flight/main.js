@@ -33,10 +33,23 @@
                     }))
                 };
 
+                //Clear existing markers form map
+                map.eachLayer(layer => {
+                    if (layer instanceof L.marker) {
+                        map.removeLayer(layer);
+                    }
+                });
+
+                //Use the plane icon
+                const customIcon = L.icon({
+                    iconUrl: 'plane.png',
+                    iconSize: [32, 32],
+                });
+
                 //Add markers to the map using the GeoJSON data
                 L.geoJSON(geoJsonFeatureCollection, {
                     pointToLayer: (feature, latlng) => {
-                        return L.marker(latlng);
+                        return L.marker(latlng, { icon: customIcon });
                     },
                     onEachFeature: (feature, layer) => {
                         //Pop up will show the flight information.
@@ -55,6 +68,6 @@
     fetchFlightData();
 
     // Set up an interval to auto-refresh the flight data every 5 minutes (300,000 milliseconds)
-    setInterval(fetchFlightData, 300000);
+    setInterval(fetchFlightData, 200000);
 
 })()
