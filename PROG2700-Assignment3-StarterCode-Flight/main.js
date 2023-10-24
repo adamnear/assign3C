@@ -56,7 +56,7 @@
                             icon: customIcon,
                             rotationAngle: feature.properties.rotation || 0 //Get the rotation in degrees from data
                         });
-                        return L.marker(latlng, { icon: customIcon });
+                        return rotatedMarker;
                     },
                     onEachFeature: (feature, layer) => {
                         //Pop up will show the flight information.
