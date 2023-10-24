@@ -28,7 +28,9 @@
                         properties: {
                             callsign: flight[1],
                             origin: flight[2],
-                            altitude: flight[7]
+                            altitude: flight[7],
+                            // Add a property for the rotation angle (in degrees)
+                            rotation: flight[10]
                         }
                     }))
                 };
@@ -49,6 +51,11 @@
                 //Add markers to the map using the GeoJSON data
                 L.geoJSON(geoJsonFeatureCollection, {
                     pointToLayer: (feature, latlng) => {
+                        //Create a rotating marker
+                        const rotatedMarker = L.rotatedMarker(latlng, {
+                            icon: customIcon,
+                            rotationAngle: feature.properties.rotation || 0 //Get the rotation in degrees from data
+                        });
                         return L.marker(latlng, { icon: customIcon });
                     },
                     onEachFeature: (feature, layer) => {
