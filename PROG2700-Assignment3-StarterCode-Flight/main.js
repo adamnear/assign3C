@@ -2,7 +2,7 @@
 (() => {
 
     //create map in leaflet and tie it to the div called 'theMap'
-    let map = L.map('theMap').setView([43.6532, -79.3832], 8);
+    let map = L.map('theMap').setView([43.6532, -79.3832], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -15,7 +15,7 @@
             .then(data => {
                 //Use filter method to only use data from Canadian flights
                 const canadianFlights = data.states.filter(flight => flight[2] === 'Canada');
-
+                console.log(data);
                 // Create a GeoJSON FeatureCollection
                 const geoJsonFeatureCollection = {
                     type: 'FeatureCollection',
@@ -35,28 +35,26 @@
                     }))
                 };
 
+
                 //Clear existing markers form map
                 map.eachLayer(layer => {
-                    if (layer instanceof L.marker) {
+                    if (layer instanceof L.Marker) {
                         map.removeLayer(layer);
                     }
                 });
 
                 //Use the plane icon
                 const customIcon = L.icon({
-                    iconUrl: 'plane.png',
+                    iconUrl: 'plane2.png',
                     iconSize: [32, 32],
                 });
 
                 //Add markers to the map using the GeoJSON data
                 L.geoJSON(geoJsonFeatureCollection, {
-                    pointToLayer: (feature, latlng) => {
-                        //Create a rotating marker
-                        const rotatedMarker = L.rotatedMarker(latlng, {
-                            icon: customIcon,
-                            rotationAngle: feature.properties.rotation || 0 //Get the rotation in degrees from data
-                        });
-                        return rotatedMarker;
+                    pointToLayer: (data) => {
+                        return L.setRotationAngle(
+
+                        );
                     },
                     onEachFeature: (feature, layer) => {
                         //Pop up will show the flight information.
@@ -74,7 +72,7 @@
     // Fetch and display flight data initially
     fetchFlightData();
 
-    // Set up an interval to auto-refresh the flight data every 5 minutes (300,000 milliseconds)
+    // Set up an interval to auto-refresh the flight data
     setInterval(fetchFlightData, 300000);
 
 })()
